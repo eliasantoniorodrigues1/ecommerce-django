@@ -39,3 +39,7 @@ def valida_cpf(cpf):
         return True
     else:
         return False
+
+
+def formata_preco(valor):
+    return f'R$ {valor:.2f}'.replace('.', ',')
