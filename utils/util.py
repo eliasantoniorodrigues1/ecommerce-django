@@ -42,4 +42,11 @@ def valida_cpf(cpf):
 
 
 def formata_preco(valor):
-    return f'R$ {valor:.2f}'.replace('.', ',')
+    if valor:
+        return f'R$ {valor:.2f}'.replace('.', ',')
+    else:
+        return 'R$ 0,00'
+    
+
+def cart_total_qtd(carrinho):
+    return sum([item['quantidade'] for item in carrinho.values()])
