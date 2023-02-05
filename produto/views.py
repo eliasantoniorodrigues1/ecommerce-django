@@ -92,6 +92,7 @@ class AdicionarAocarrinho(View):
         else:
             # checar se o estoque da variação é o suficiente para adicionar
             # no carrinho.
+            quantidade_carrinho = 1
             carrinho[variacao_id] = {
                 'produto_id': produto_id,
                 'produto_nome': produto_nome,
@@ -99,11 +100,16 @@ class AdicionarAocarrinho(View):
                 'variacao_id': variacao_id,
                 'preco_unitario': preco_unitario,
                 'preco_unitario_promocional': preco_unitario_promocional,
-                'quantidade': quantidade,
+                'quantidade': 1,
                 'slug': slug,
                 'imagem': imagem,
             }
-
+            carrinho[variacao_id]['quantidade'] = quantidade_carrinho
+            carrinho[variacao_id]['preco_quantitativo'] = preco_unitario * \
+                quantidade_carrinho
+            carrinho[variacao_id]['preco_quantitativo_promocional'] = preco_unitario_promocional * \
+                quantidade_carrinho
+            
         self.request.session.save()
         messages.success(self.request, f'Produto {produto.nome} {variacao.nome} adicionado com sucesso ao seu '
                          f'carrinho {carrinho[variacao_id]["quantidade"]}x.')
@@ -147,6 +153,6 @@ class Carrinho(View):
         return render(self.request, 'produto/carrinho.html', contexto)
 
 
-class Finalizar(View):
+class ResumoDaCompra(View):
     def get(self, *args, **kwargs):
         return HttpResponse('finalizar')
